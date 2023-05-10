@@ -6,7 +6,21 @@ from django.contrib.auth.models import User
 
 # Create your views here.
 def login(request):
-     return render(request,'accounts/login.html')
+    if request.method == 'POST':
+        username = request.POST['username']
+        email = request.POST['email']
+        password = request.POST['password']
+        
+        user = auth.authenticate(username=username,email=email,password=password)
+        if user is not None:
+            auth.login(request, user)
+            messages.success(request, 'Login successful')
+            return redirect('dashboard')   
+        else:
+            messages.error(request, 'invalid login credentials')
+            return redirect('login')         
+    return render(request,'accounts/login.html')
+  
 
 def register(request):
     if request.method == 'POST':
