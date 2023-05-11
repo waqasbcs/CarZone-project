@@ -44,7 +44,15 @@ INSTALLED_APPS = [
     'ckeditor',
     'multiselectfield',
     'django.contrib.humanize',
-    'accounts'
+    'accounts',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    
+    #providers
+    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.google',
+    
     
    
 ]
@@ -147,3 +155,4 @@ MESSAGE_TAGS = {
 
 }
 
+SITE_ID = 1 
