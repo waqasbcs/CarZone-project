@@ -12,7 +12,7 @@ class contact(models.Model):
     state = models.CharField(max_length=100)
     email = models.EmailField(max_length=100)
     phone = models.CharField(max_length=100)
-    messgae = models.TextField(blank=True)
+    message = models.TextField(blank=True)
     user_id = models.IntegerField(blank=True)
     create_date = models.DateTimeField(blank=True,default=datetime.now)
     
