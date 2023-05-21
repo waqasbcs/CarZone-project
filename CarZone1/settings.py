@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'pages',
     'cars',
+    'contacts',
     'ckeditor',
     'multiselectfield',
     'django.contrib.humanize',
