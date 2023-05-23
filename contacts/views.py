@@ -16,6 +16,14 @@ def inquiry(request):
         phone = request.POST['phone']
         message = request.POST['message']
         
+        if request.user.is_authenticated:
+            user_id = request.user.id
+            has_contacted = contact.objects.all().filter(car_id=car_id,user_id=user_id)
+            if has_contacted:
+                messages.error(request, "you have already inquiry about this car,please wait...")
+        return redirect('/cars'+car_id)
+                
+        
         contact_obj = contact(car_id=car_id, car_title=car_title, user_id=user_id,
                               first_name=first_name, last_name=last_name,
                               customer_need=customer_need, city=city, state=state, email=email, 
