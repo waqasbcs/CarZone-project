@@ -35,7 +35,6 @@ def inquiry(request):
         
         admin_info = User.objects.get(is_superuser=True)
         admin_email = admin_info.email
-        
                                                    
         send_mail(
                   'New Car Inquiry',
