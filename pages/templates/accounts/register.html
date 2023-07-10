@@ -31,7 +31,7 @@
                     </div>
                     <h3>Create an account</h3>
                     {% include 'includes/messages.html' %}
-                    <form action="{% url 'register' %}" method="POST"  novalidate>
+                    <form action="{% url 'register' %}" method="POST" novalidate>
                         {% csrf_token %}
                         <div class="form-group form-box">
                             <input type="text" name="firstname" class="input-text" placeholder="First Name" required>
@@ -60,21 +60,50 @@
                         <div class="form-group mb-0 clearfix">
                             <button type="submit" class="btn-md btn-theme float-left">Register</button>
                         </div>
-                        <div class="extra-login clearfix">
-                            <span>Or Login With</span>
-                        </div>
-                        <div class="clearfix"></div>
-                        <ul class="social-list">
-                            <li><a href="{% provider_login_url 'facebook' method='oauth2' %}" class="facebook-bg"><i class="fa fa-facebook facebook-i"></i><span>Facebook</span></a></li>
-                            <li><a href="{% provider_login_url 'google' %}" class="google-bg"><i class="fa fa-google google-i"></i><span>Google</span></a></li>
-                        </ul>
                     </form>
+                    <div class="extra-login clearfix">
+                        <span>Or Login With</span>
+                    </div>
+                    <div class="clearfix"></div>
+                    <ul class="social-list">
+                        <li>
+                            <form id="facebook-login-form" action="{% provider_login_url 'facebook' method='oauth2' %}" method="POST">
+                                {% csrf_token %}
+                                <button type="submit" class="btn-md btn-theme facebook-bg">
+                                    <i class="fa fa-facebook facebook-i"></i>
+                                    <span>Facebook</span>
+                                </button>
+                            </form>
+                        </li>
+                        <li>
+                            <form id="google-login-form" action="{% provider_login_url 'google' %}" method="POST">
+                                {% csrf_token %}
+                                <button type="submit" class="btn-md btn-theme google-bg">
+                                    <i class="fa fa-google google-i"></i>
+                                    <span>Google</span>
+                                </button>
+                            </form>
+                        </li>
+                     
+                    </ul>
+                    <script>
+                        document.getElementById("google-login-form").addEventListener("submit", function(event) {
+                            event.preventDefault(); // Prevent the default form submission
+                            this.submit(); // Manually submit the form
+                        });
+
+                        document.getElementById("facebook-login-form").addEventListener("submit", function(event) {
+                            event.preventDefault(); // Prevent the default form submission
+                            this.submit(); // Manually submit the form
+                        });
+                    </script>
                     <p>Already a member? <a href="{% url 'login' %}" class="thembo"> Login here</a></p>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 <!-- Contact section end -->
 
-{% endblock content%}
+{% endblock content %}
