@@ -1,6 +1,30 @@
 {% extends 'pages/base.html' %}
 {% block title %} {{single_car.car_title}} {% endblock title %}
 {% load static %}
+{% block style %}
+<style>
+    .whatsapp-button {
+        color: green; /* Set the default text color to green */
+        border-color: green; /* Set the default border color to green */
+    }
+
+    .whatsapp-button:hover {
+        color: white; /* Change the text color to white on hover */
+        background-color: #25d366; /* Change the background color on hover to match WhatsApp green */
+    }
+
+    .whatsapp-button .whatsapp-icon {
+        color: green; /* Set the default icon color to green */
+    }
+
+    .whatsapp-button:hover .whatsapp-icon {
+        color: white; /* Change the icon color to white on hover */
+    }
+</style>
+
+
+
+{% endblock style %}
 
 {% block content %}
 {% load humanize %}
@@ -134,10 +158,9 @@
 
             <!-- Advanced search start -->
             <div class="widget advanced-search col-lg-4 col-md-12 col-xs-12">
-                <button class="btn btn-outline-danger bomd btn-block btn-lg" data-toggle="modal"
-                    data-target="#inquiryModal">Send message</button>
-
-
+                <button class="btn btn-outline-success btn-block btn-lg whatsapp-button" data-toggle="modal" data-target="#inquiryModal">
+                    <i class="fab fa-whatsapp whatsapp-icon"></i> Send message via WhatsApp
+                </button>
                 <br>
                 <h3 class="sidebar-title">Refine Your Search</h3>
                 <ul>
@@ -199,7 +222,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form action="{% url 'inquiry' %}"method = "POST">
+                            <form id="inquiryForm" action="{% url 'inquiry' %}"method = "POST">
                                 {% csrf_token %}
                                 {% if user.is_authenticated %}
                                 <input type="hidden" name="user_id" value="{{ user.id }}">
@@ -278,7 +301,10 @@
                                         placeholder="Enter your message here (optional)"></textarea>
                                 </div>
                                 <hr>
-                                <input type="submit" value="Send" class="btn btn-block btn-danger">
+                                <a class="btn btn-block btn-success whatsapp-button text-white" onclick="sendInquiryViaWhatsApp()">
+                                    <i class="fab fa-whatsapp"></i> Send
+                                </a>
+            
                             </form>
                         </div>
                     </div>
@@ -318,5 +344,48 @@
 </div>
 </div>
 <!-- Properties details page end -->
+<!-- Your other HTML content... -->
 
-{% endblock content %}
+<!-- Add this script at the bottom of your HTML page or include it in a separate JS file -->
+<script>
+    function sendInquiryViaWhatsApp() {
+        // Get the form data
+        {% if user.is_authenticated %}
+        var form = document.getElementById('inquiryForm');
+        var formData = new FormData(form);
+        var carTitle = formData.get('car_title');
+        var customerNeed = formData.get('customer_need');
+        var city = formData.get('city');
+        var state = formData.get('state');
+        var email = formData.get('email');
+        var phone = formData.get('phone');
+        var message = formData.get('message');
+    
+        // Construct the WhatsApp message with bold formatting
+        var whatsappMessage = `
+        Hello, My Name is *${formData.get('first_name')} ${formData.get('last_name')}*.
+        I live in *${city}*, *${state}*.
+        I'm interested in ${carTitle} 
+        *${customerNeed}*.
+        You can reach me by email at *${email}*.
+        
+        ${message}`;    
+        // Encode the message for the WhatsApp URL
+        var encodedMessage = encodeURIComponent(whatsappMessage);
+    
+        // Specify the WhatsApp phone number (replace with your own number)
+        var whatsappNumber = '+923441949399'; // Replace with your WhatsApp number
+    
+        // Generate the WhatsApp URL
+        var whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+    
+        // Open WhatsApp with the pre-filled message in a new tab
+        window.open(whatsappURL, '_blank');
+        {% else %}
+        window.location.href = "{% url 'login' %}";
+    {% endif %}
+    }
+    </script>
+    
+
+{% endblock content%}

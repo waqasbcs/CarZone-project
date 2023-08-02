@@ -9,10 +9,9 @@ from django.contrib.auth.decorators import login_required
 def login(request):
     if request.method == 'POST':
         username = request.POST['username']
-        email = request.POST['email']
         password = request.POST['password']
         
-        user = auth.authenticate(username=username,email=email,password=password)
+        user = auth.authenticate(username=username,password=password)
         if user is not None:
             auth.login(request, user)
             messages.success(request, 'Login successful')

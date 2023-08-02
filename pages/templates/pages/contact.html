@@ -1,9 +1,33 @@
 {% extends 'pages/base.html' %}
 {% block title %} Contact Us {% endblock title %}
 
+{% load static %}
+{% block style %}
+<style>
+    .whatsapp-button {
+        color: green; /* Set the default text color to green */
+        border-color: green; /* Set the default border color to green */
+    }
+
+    .whatsapp-button:hover {
+        color: hover; /* Change the text color to white on hover */
+        background-color: #25d366; /* Change the background color on hover to match WhatsApp green */
+    }
+
+    .whatsapp-button .whatsapp-icon {
+        color: green; /* Set the default icon color to green */
+    }
+
+    .whatsapp-button:hover .whatsapp-icon {
+        color: hover; /* Change the icon color to white on hover */
+    }
+</style>
+
+
+
+{% endblock style %}
+
 {% block content %}
-
-
 <!-- Sub banner start -->
 <div class="sub-banner overview-bgi">
     <div class="container breadcrumb-area">
@@ -18,7 +42,6 @@
 </div>
 <!-- Sub Banner end -->
 
-
 <!-- Contact 2 start -->
 <div class="contact-2 content-area-5">
     <div class="container">
@@ -27,7 +50,7 @@
             <h1>Contact <span>Us</span></h1>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</p>
         </div>
-        <form action="{% url 'contact' %}" method="POST" enctype="multipart/form-data">
+        <form id="contactForm" action="{% url 'contact' %}" method="POST" enctype="multipart/form-data">
             {% include 'includes/messages.html' %}
             {% csrf_token %}
             <div class="row">
@@ -58,11 +81,6 @@
                                 <textarea class="form-control" name="message" placeholder="Write message"></textarea>
                             </div>
                         </div>
-                        <div class="col-md-12">
-                            <div class="send-btn text-center">
-                                <button type="submit" class="btn btn-md button-theme">Send Message</button>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div class="col-lg-5">
@@ -73,7 +91,7 @@
                             </div>
                             <div class="detail">
                                 <h5>Phone:</h5>
-                                <p><a href="#">0477 8556 552</a></p>
+                                <p><a href="#">0344 1949399</a></p>
                             </div>
                         </div>
                         <div class="ci-box">
@@ -82,7 +100,7 @@
                             </div>
                             <div class="detail">
                                 <h5>Email:</h5>
-                                <p><a href="#">info@themevessel.com</a></p>
+                                <p><a href="#">carZone2945@gmail.com</a></p>
                             </div>
                         </div>
                         <div class="ci-box">
@@ -107,9 +125,50 @@
                 </div>
             </div>
         </form>
+        <!-- Advanced search start -->
+        {% if user.is_authenticated %}
+        <div class="widget advanced-search col-lg-4 col-md-12 col-xs-12">
+            <a class="btn btn-outline-success bomd btn-block btn-lg whatsapp-button" onclick="sendContactMessageViaWhatsApp()">
+                <i class="fab fa-whatsapp whatsapp-icon"></i>Send Message via WhatsApp
+            </a>
+        </div>
+        {% else %}
+        <div class="widget advanced-search col-lg-4 col-md-12 col-xs-12">
+            <a class="btn btn-outline-success bomd btn-block btn-lg whatsapp-button" href="{% url 'login' %}">
+                <i class="fab fa-whatsapp whatsapp-icon"></i>Send Message via WhatsApp
+            </a>
+        </div>
+        {% endif %}
     </div>
 </div>
 <!-- Contact 2 end -->
+<!-- Your contact us page HTML content ... -->
+
+<script>
+    function sendContactMessageViaWhatsApp() {
+        var form = document.getElementById('contactForm');
+        var formData = new FormData(form);
+        var name = formData.get('name');
+        var email = formData.get('email');
+        var subject = formData.get('subject');
+        var phone = formData.get('phone');
+        var message = formData.get('message');
+
+        var whatsappMessage = `Hello, My Name is *${name}*.
+        My Email is *${email}*.
+        Subject: *${subject}*.
+        My Phone Number is *${phone}*.
+        Message: ${message}`;
+
+        var encodedMessage = encodeURIComponent(whatsappMessage);
+        var whatsappNumber = '+923441949399'; // Replace with your WhatsApp number
+
+        var whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+
+        // Open WhatsApp with the pre-filled message
+        window.open(whatsappURL, '_blank');
+    }
+</script>
 
 
 {% endblock content %}
