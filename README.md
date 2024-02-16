@@ -41,7 +41,7 @@ Welcome to Car Zone! This project is a web application that allows users to brow
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/your-username/car-zone.git
+    git clone https://github.com/waqasbcs/CarZone-project
     ```
 
 2. Navigate into the project directory:
@@ -75,9 +75,14 @@ Welcome to Car Zone! This project is a web application that allows users to brow
 ## Screenshots
 
 Include screenshots or images showcasing your project's UI or functionality.
+![Screenshot 1](https://github.com/waqasbcs/CarZone-project/blob/main/screenshorts/home.png)
+![Screenshot 2](https://github.com/waqasbcs/CarZone-project/blob/main/screenshorts/cars.png)
+![Screenshot 3](https://github.com/waqasbcs/CarZone-project/blob/main/screenshorts/about.png)
+![Screenshot 4](https://github.com/waqasbcs/CarZone-project/blob/main/screenshorts/services.png)
+![Screenshot 5](https://github.com/waqasbcs/CarZone-project/blob/main/screenshorts/contact.png)
 
-![Screenshot 1](https://github.com/waqasbcs/CarZone-project/blob/main/screenshorts/about.png)
-![Screenshot 2](https://github.com/waqasbcs/CarZone-project/blob/main/screenshorts/contact.png)
+
+
 
 ## Contributing
 
